@@ -1,4 +1,5 @@
 import Square from "./Square.js";
+const numOfCols = 3;
 
 function Board({ xIsNext, squares, onPlay }) {
 
@@ -19,26 +20,26 @@ function Board({ xIsNext, squares, onPlay }) {
     status = "Next player: " + (xIsNext ? "X" : "O");
   }
 
+  const rows = [];
+  for (let row = 0; row < 3; row++) {
+    rows.push(<div className="board-row">{generateSquares(row, squares, handleClick)}</div>);
+  }
+
   return (
     <>
       <div className="status">{ status }</div>
-      <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
-      </div>
+      { rows }
     </>
   );
+}
+
+function generateSquares(row, squares, handleClick) {
+  const squaresComponents = [];
+  for (let col = 0; col < numOfCols; col++) {
+    const adjustedCol = (row * numOfCols)  + col;
+    squaresComponents.push(<Square value={squares[adjustedCol]} onSquareClick={() => handleClick(adjustedCol)} />)
+  }
+  return squaresComponents;
 }
 
 function calculateWinner(squares) {
