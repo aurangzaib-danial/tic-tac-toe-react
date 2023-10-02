@@ -6,6 +6,7 @@ export default function Game() {
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
+  const [order, setOrder] = useState("asc");
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
@@ -15,6 +16,11 @@ export default function Game() {
 
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
+  }
+
+  function toggleOrder() {
+    let newOrder = order === "asc" ? "desc" : "asc"
+    setOrder(newOrder);
   }
 
   const moves = history.map((squares, move) => {
@@ -41,7 +47,8 @@ export default function Game() {
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
-        <ol>{moves}</ol>
+        <button className="order-btn" onClick={toggleOrder}>Change order</button>
+        <ol>{order === "asc" ? moves : moves.reverse()}</ol>
       </div>
     </div>
   );
