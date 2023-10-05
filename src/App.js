@@ -19,7 +19,7 @@ export default function Game() {
   }
 
   function toggleOrder() {
-    let newOrder = order === "asc" ? "desc" : "asc"
+    let newOrder = order === "asc" ? "desc" : "asc";
     setOrder(newOrder);
   }
 
