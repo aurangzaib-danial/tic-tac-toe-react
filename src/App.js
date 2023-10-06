@@ -25,11 +25,15 @@ export default function Game() {
 
   const moves = history.map((squares, move) => {
     let description;
+    let moveIndex;
+    if (move > 0) {
+      moveIndex = squaresDifference(history[move-1], squares);
+    }
 
     if (move === currentMove) {
-      description = move === 0 ? "You are at game start" : ("You are at move #" + move);
+      description = move === 0 ? "You are at game start" : ("You are at move #" + move + ` ${formatIndex(moveIndex)} `);
     } else if (move > 0) {
-      description = "Go to move #" + move;
+      description = "Go to move #" + move + ` ${formatIndex(moveIndex)} `;
     } else {
       description = "Go to game start";
     }
@@ -54,3 +58,13 @@ export default function Game() {
   );
 }
 
+function squaresDifference(a, b) {
+  return a.findIndex((element, index) => element !== b[index]);
+}
+
+function formatIndex(index) {
+  const row = Math.floor(index / 3);
+  const col = index % 3;
+
+  return `(${row + 1},${col + 1})`;
+}
